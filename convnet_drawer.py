@@ -283,6 +283,14 @@ class Dense(Layer):
         return ["dense"]
 
     def set_objects(self):
+        x1 = self.prev_feature_map.right
+        y11 = - math.pow(self.prev_feature_map.c, channel_scale) / 2
+        y12 = math.pow(self.prev_feature_map.c, channel_scale) / 2
+        x2 = self.next_feature_map.left
+        y2 = - math.pow(self.next_feature_map.c, channel_scale) / 4
+        self.objects.append(Line(x1, y11, x2, y2, color="blue", dasharray=2))
+        self.objects.append(Line(x1, y12, x2, y2, color="blue", dasharray=2))
+
         x = (self.prev_feature_map.right + self.next_feature_map.left) / 2
         y = max(self.prev_feature_map.get_bottom(), self.next_feature_map.get_bottom()) + text_margin + text_size
 

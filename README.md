@@ -79,7 +79,7 @@ If the maximum channel size is small (e.g. 512), please increase `channel_scale`
 
 ## TODOs
 - [x] Implement padding option for Conv2D and Pooling layers.
-- [ ] Add some effects to Dense layer (and Flatten / GlobalAveragePooling2D).
+- [x] Add some effects to Dense layer (and Flatten / GlobalAveragePooling2D).
 - [ ] Automatically calibrate the scale of feature maps for better visibility.
 - [ ] Move hard-coded parameters to a config file or options.
 - [ ] Refactor Layer classes.
