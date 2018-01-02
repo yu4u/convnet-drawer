@@ -317,15 +317,15 @@ def get_object_string(lines):
 
 def main():
     model = Model(input_shape=(128, 128, 3))
-    model.add(Conv2D(32, (11, 11), (2, 2)))
+    model.add(Conv2D(32, (11, 11), (2, 2), padding="same"))
     model.add(MaxPooling2D((2, 2)))
-    model.add(Conv2D(64, (7, 7)))
+    model.add(Conv2D(64, (7, 7), padding="same"))
     model.add(AveragePooling2D((2, 2)))
-    model.add(Conv2D(128, (3, 3)))
+    model.add(Conv2D(128, (3, 3), padding="same"))
     model.add(MaxPooling2D((2, 2)))
-    model.add(Conv2D(256, (3, 3)))
-    model.add(Conv2D(1024, (3, 3)))
-    model.save_fig("text.svg")
+    model.add(Conv2D(256, (3, 3), padding="same"))
+    model.add(Conv2D(512, (3, 3), padding="same"))
+    model.save_fig("test.svg")
 
 
 if __name__ == '__main__':
