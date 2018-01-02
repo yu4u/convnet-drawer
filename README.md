@@ -52,7 +52,7 @@ e.g. `Conv2D(96, (11, 11), (4, 4)))`
 
 e.g. `MaxPooling2D((3, 3), strides=(2, 2))`
 
-If `strides = None`, stride set to be the same as `pool_size`.
+If `strides = None`, stride is set to be `pool_size`.
 
 #### GlobalAveragePooling2D
 ```GlobalAveragePooling2D()```
