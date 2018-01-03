@@ -67,7 +67,7 @@ e.g. `Dense(4096)`
 
 ### Visualization Parameters
 Currently visualizing parameters are hard-coded.
-Please adjust these parameters in [convnet_drawer.py](convnet_drawer.py).
+Please adjust these parameters in [config.py](config.py).
 The most important parameter is `channel_scale = 3 / 5`.
 This parameter rescale actual channel size `c` to `c_` for visualization as:
 
