@@ -84,6 +84,23 @@ If the maximum channel size is small (e.g. 512), please increase `channel_scale`
 - [ ] Refactor Layer classes.
 - [ ] Draw with matplotlib? for other formats.
 
+## Results
+LeNet
+
+<img src="examples/LeNet.svg">
+
+AlexNet
+
+<img src="examples/AlexNet.svg">
+
+ZFNet
+
+<img src="examples/ZFNet.svg">
+
+VGG16
+
+<img src="examples/VGG16.svg">
+
 ## References
 [1] https://github.com/gwding/draw_convnet
 
