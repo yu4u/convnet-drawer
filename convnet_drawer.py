@@ -2,6 +2,24 @@ import config
 import math
 
 
+def configure(theta=- math.pi / 6,
+              ratio=0.7,
+              bounding_box_margin=10,
+              inter_layer_margin=50,
+              text_margin=10,
+              channel_scale=3 / 5,
+              text_size=14,
+              one_dim_width=4):
+    config.theta = theta
+    config.ratio = ratio
+    config.bounding_box_margin = bounding_box_margin
+    config.inter_layer_margin = inter_layer_margin
+    config.text_margin = text_margin
+    config.channel_scale = channel_scale
+    config.text_size = text_size
+    config.one_dim_width = one_dim_width
+
+
 class Line:
     def __init__(self, x1, y1, x2, y2, color="black", width=1, dasharray="none"):
         self.x1, self.y1 = x1, y1
