@@ -1,13 +1,5 @@
+import config
 import math
-
-theta = - math.pi / 6
-ratio = 0.7
-bounding_box_margin = 10
-inter_layer_margin = 50
-text_margin = 10
-channel_scale = 3 / 5
-text_size = 14
-one_dim_width = 4
 
 
 class Line:
@@ -32,8 +24,8 @@ class Text:
         self.size = size
 
     def get_svg_string(self):
-        return '<text x="{}" y="{}" font-family="arial" font-size="{}px" text-anchor="middle" fill="{}">{}</text>'.format(
-            self.x, self.y, self.size, self.color, self.body)
+        return '<text x="{}" y="{}" font-family="arial" font-size="{}px" ' \
+               'text-anchor="middle" fill="{}">{}</text>'.format(self.x, self.y, self.size, self.color, self.body)
 
 
 class Rect:
@@ -44,8 +36,8 @@ class Rect:
         self.stroke_width = stroke_width
 
     def get_svg_string(self):
-        return '<rect x="{}" y="{}" width="{}" height="{}" stroke-width="{}" stroke="{}" fill="transparent"/>\n'.format(
-            self.x, self.y, self.w, self.h, self.stroke_width, self.color)
+        return '<rect x="{}" y="{}" width="{}" height="{}" stroke-width="{}" stroke="{}"' \
+               ' fill="transparent"/>\n'.format(self.x, self.y, self.w, self.h, self.stroke_width, self.color)
 
 
 class Model:
@@ -90,17 +82,18 @@ class Model:
 
         for feature_map in self.feature_maps:
             right = feature_map.set_objects(left)
-            left = right + inter_layer_margin
+            left = right + config.inter_layer_margin
 
         for i, layer in enumerate(self.layers):
             layer.set_objects()
 
         # get bounding box
-        x = - bounding_box_margin
-        y = min([f.get_top() for f in self.feature_maps]) - text_margin - text_size - bounding_box_margin
-        width = self.feature_maps[-1].right + bounding_box_margin * 2 + 30
+        x = - config.bounding_box_margin - 30
+        y = min([f.get_top() for f in self.feature_maps]) - config.text_margin - config.text_size \
+            - config.bounding_box_margin
+        width = self.feature_maps[-1].right + config.bounding_box_margin * 2 + 30 * 2
         # TODO: automatically calculate the ad-hoc offset "30" from description length
-        height = - y * 2 + text_size
+        height = - y * 2 + config.text_size
 
         # draw
         string = '<svg xmlns="http://www.w3.org/2000/svg" ' \
@@ -130,11 +123,11 @@ class FeatureMap:
 
     def set_objects(self, left):
         self.left = left
-        c_ = math.pow(self.c, channel_scale)
+        c_ = math.pow(self.c, config.channel_scale)
         self.right, self.objects = get_rectangular(self.h, self.w, c_, left)
         x = (left + self.right) / 2
-        y = self.get_top() - text_margin
-        self.objects.append(Text(x, y, "{}x{}x{}".format(self.h, self.w, self.c), size=text_size))
+        y = self.get_top() - config.text_margin
+        self.objects.append(Text(x, y, "{}x{}x{}".format(self.h, self.w, self.c), size=config.text_size))
 
         return self.right
 
@@ -142,17 +135,17 @@ class FeatureMap:
         return get_object_string(self.objects)
 
     def get_left_for_conv(self):
-        return self.left + self.w * ratio * math.cos(theta) / 2
+        return self.left + self.w * config.ratio * math.cos(config.theta) / 2
 
     def get_top(self):
-        return - self.h / 2 + self.w * ratio * math.sin(theta) / 2
+        return - self.h / 2 + self.w * config.ratio * math.sin(config.theta) / 2
 
     def get_bottom(self):
-        return self.h / 2 - self.w * ratio * math.sin(theta) / 2
+        return self.h / 2 - self.w * config.ratio * math.sin(config.theta) / 2
 
     def get_right_for_conv(self):
-        x = self.left + self.w * ratio * math.cos(theta) / 4
-        y = - self.h / 4 + self.w * ratio * math.sin(theta) / 4
+        x = self.left + self.w * config.ratio * math.cos(config.theta) / 4
+        y = - self.h / 4 + self.w * config.ratio * math.sin(config.theta) / 4
 
         return x, y
 
@@ -166,11 +159,12 @@ class FeatureMap1D:
 
     def set_objects(self, left):
         self.left = left
-        c_ = math.pow(self.c, channel_scale)
-        self.right = left + one_dim_width
+        c_ = math.pow(self.c, config.channel_scale)
+        self.right = left + config.one_dim_width
         # TODO: reflect text length to right
-        self.objects = [Rect(left, - c_ / 2, one_dim_width, c_)]
-        self.objects.append(Text(left + one_dim_width / 2, - c_ / 2 - text_margin, "{}".format(self.c), size=text_size))
+        self.objects = [Rect(left, - c_ / 2, config.one_dim_width, c_)]
+        self.objects.append(Text(left + config.one_dim_width / 2, - c_ / 2 - config.text_margin, "{}".format(
+            self.c), size=config.text_size))
 
         return self.right
 
@@ -178,10 +172,10 @@ class FeatureMap1D:
         return get_object_string(self.objects)
 
     def get_top(self):
-        return - math.pow(self.c, channel_scale) / 2
+        return - math.pow(self.c, config.channel_scale) / 2
 
     def get_bottom(self):
-        return math.pow(self.c, channel_scale) / 2
+        return math.pow(self.c, config.channel_scale) / 2
 
 
 class Layer:
@@ -199,22 +193,24 @@ class Layer:
         return None
 
     def set_objects(self):
-        c = math.pow(self.prev_feature_map.c, channel_scale)
+        c = math.pow(self.prev_feature_map.c, config.channel_scale)
         left = self.prev_feature_map.get_left_for_conv()
         start1 = (left + c,
-                  -self.kernel_size[0] + self.kernel_size[1] * ratio * math.sin(theta) / 2 + self.kernel_size[0] / 2)
-        start2 = (left + c + self.kernel_size[1] * ratio * math.cos(theta),
-                  -self.kernel_size[1] * ratio * math.sin(theta) / 2 + self.kernel_size[0] / 2)
+                  -self.kernel_size[0] + self.kernel_size[1] * config.ratio * math.sin(config.theta) / 2
+                  + self.kernel_size[0] / 2)
+        start2 = (left + c + self.kernel_size[1] * config.ratio * math.cos(config.theta),
+                  -self.kernel_size[1] * config.ratio * math.sin(config.theta) / 2 + self.kernel_size[0] / 2)
         end = self.next_feature_map.get_right_for_conv()
         left, self.objects = get_rectangular(self.kernel_size[0], self.kernel_size[1], c, left, color="blue")
         self.objects.append(Line(start1[0], start1[1], end[0], end[1], color="blue", dasharray="none"))
         self.objects.append(Line(start2[0], start2[1], end[0], end[1], color="blue", dasharray="none"))
 
         x = (self.prev_feature_map.right + self.next_feature_map.left) / 2
-        y = max(self.prev_feature_map.get_bottom(), self.next_feature_map.get_bottom()) + text_margin + text_size
+        y = max(self.prev_feature_map.get_bottom(), self.next_feature_map.get_bottom()) + config.text_margin \
+            + config.text_size
 
         for i, description in enumerate(self.get_description()):
-            self.objects.append(Text(x, y + i * text_size, "{}".format(description), size=text_size))
+            self.objects.append(Text(x, y + i * config.text_size, "{}".format(description), size=config.text_size))
 
     def get_object_string(self):
         return get_object_string(self.objects)
@@ -254,10 +250,11 @@ class GlobalAveragePooling2D(Layer):
 
     def set_objects(self):
         x = (self.prev_feature_map.right + self.next_feature_map.left) / 2
-        y = max(self.prev_feature_map.get_bottom(), self.next_feature_map.get_bottom()) + text_margin + text_size
+        y = max(self.prev_feature_map.get_bottom(), self.next_feature_map.get_bottom()) + config.text_margin \
+            + config.text_size
 
         for i, description in enumerate(self.get_description()):
-            self.objects.append(Text(x, y + i * text_size, "{}".format(description), size=text_size))
+            self.objects.append(Text(x, y + i * config.text_size, "{}".format(description), size=config.text_size))
 
 
 class Flatten(Layer):
@@ -269,10 +266,11 @@ class Flatten(Layer):
 
     def set_objects(self):
         x = (self.prev_feature_map.right + self.next_feature_map.left) / 2
-        y = max(self.prev_feature_map.get_bottom(), self.next_feature_map.get_bottom()) + text_margin + text_size
+        y = max(self.prev_feature_map.get_bottom(), self.next_feature_map.get_bottom()) + config.text_margin \
+            + config.text_size
 
         for i, description in enumerate(self.get_description()):
-            self.objects.append(Text(x, y + i * text_size, "{}".format(description), size=text_size))
+            self.objects.append(Text(x, y + i * config.text_size, "{}".format(description), size=config.text_size))
 
 
 class Dense(Layer):
@@ -284,27 +282,28 @@ class Dense(Layer):
 
     def set_objects(self):
         x1 = self.prev_feature_map.right
-        y11 = - math.pow(self.prev_feature_map.c, channel_scale) / 2
-        y12 = math.pow(self.prev_feature_map.c, channel_scale) / 2
+        y11 = - math.pow(self.prev_feature_map.c, config.channel_scale) / 2
+        y12 = math.pow(self.prev_feature_map.c, config.channel_scale) / 2
         x2 = self.next_feature_map.left
-        y2 = - math.pow(self.next_feature_map.c, channel_scale) / 4
+        y2 = - math.pow(self.next_feature_map.c, config.channel_scale) / 4
         self.objects.append(Line(x1, y11, x2, y2, color="blue", dasharray=2))
         self.objects.append(Line(x1, y12, x2, y2, color="blue", dasharray=2))
 
         x = (self.prev_feature_map.right + self.next_feature_map.left) / 2
-        y = max(self.prev_feature_map.get_bottom(), self.next_feature_map.get_bottom()) + text_margin + text_size
+        y = max(self.prev_feature_map.get_bottom(), self.next_feature_map.get_bottom()) + config.text_margin \
+            + config.text_size
 
         for i, description in enumerate(self.get_description()):
-            self.objects.append(Text(x, y + i * text_size, "{}".format(description), size=text_size))
+            self.objects.append(Text(x, y + i * config.text_size, "{}".format(description), size=config.text_size))
 
 
 def get_rectangular(h, w, c, dx=0, color="black"):
     p = [[0, -h],
-         [w * ratio * math.cos(theta), -w * ratio * math.sin(theta)],
+         [w * config.ratio * math.cos(config.theta), -w * config.ratio * math.sin(config.theta)],
          [c, 0]]
 
-    dy = w * ratio * math.sin(theta) / 2 + h / 2
-    right = dx + w * ratio * math.cos(theta) + c
+    dy = w * config.ratio * math.sin(config.theta) / 2 + h / 2
+    right = dx + w * config.ratio * math.cos(config.theta) + c
     lines = []
 
     for i, [x1, y1] in enumerate(p):
