@@ -37,7 +37,7 @@ Result:
 <img src="examples/AlexNet.svg">
 
 ## Usage
-Write a script to define and save a model like [example.py](example.py).
+Write a script to define and save a model like [examples](examples).
 
 ### Supported Layers
 
