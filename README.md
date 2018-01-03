@@ -34,7 +34,7 @@ model.save_fig("example.svg")
 
 Result:
 
-<img src="./example.svg">
+<img src="examples/AlexNet.svg">
 
 ## Usage
 Write a script to define and save a model like [example.py](example.py).
@@ -66,8 +66,8 @@ If `strides = None`, stride is set to be `pool_size`.
 e.g. `Dense(4096)`
 
 ### Visualization Parameters
-Currently visualizing parameters are hard-coded.
-Please adjust these parameters in [config.py](config.py).
+Visualization Parameters can be found in [config.py](config.py).
+Please adjust these parameters using `configure` function before model definition (see [LeNet.py](examples/LeNet.py)).
 The most important parameter is `channel_scale = 3 / 5`.
 This parameter rescale actual channel size `c` to `c_` for visualization as:
 
@@ -76,12 +76,11 @@ This parameter rescale actual channel size `c` to `c_` for visualization as:
 If the maximum channel size is small (e.g. 512), please increase `channel_scale`.
 
 
-
 ## TODOs
 - [x] Implement padding option for Conv2D and Pooling layers.
 - [x] Add some effects to Dense layer (and Flatten / GlobalAveragePooling2D).
 - [ ] Automatically calibrate the scale of feature maps for better visibility.
-- [ ] Move hard-coded parameters to a config file or options.
+- [x] Move hard-coded parameters to a config file or options.
 - [ ] Refactor Layer classes.
 - [ ] Draw with matplotlib? for other formats.
 
