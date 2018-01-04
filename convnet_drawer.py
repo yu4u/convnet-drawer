@@ -184,7 +184,15 @@ class FeatureMap1D:
         c_ = math.pow(self.c, config.channel_scale)
         self.right = left + config.one_dim_width
         # TODO: reflect text length to right
-        self.objects = [Rect(left, - c_ / 2, config.one_dim_width, c_)]
+        x1 = left
+        y1 = - c_ / 2
+        x2 = left + config.one_dim_width
+        y2 = c_ / 2
+        self.objects = []
+        self.objects.append(Line(x1, y1, x1, y2))
+        self.objects.append(Line(x1, y2, x2, y2))
+        self.objects.append(Line(x2, y2, x2, y1))
+        self.objects.append(Line(x2, y1, x1, y1))
         self.objects.append(Text(left + config.one_dim_width / 2, - c_ / 2 - config.text_margin, "{}".format(
             self.c), size=config.text_size))
 
