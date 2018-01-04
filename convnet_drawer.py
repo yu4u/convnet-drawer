@@ -66,6 +66,10 @@ class Model:
             raise ValueError("input_shape should be rank 3 but received  {}".format(input_shape))
 
         self.feature_maps = [FeatureMap(*input_shape)]
+        self.x = None
+        self.y = None
+        self.width = None
+        self.height = None
 
     def add_feature_map(self, layer):
         if isinstance(self.feature_maps[-1], FeatureMap):
@@ -94,8 +98,7 @@ class Model:
         layer.next_feature_map = self.feature_maps[-1]
         self.layers.append(layer)
 
-    def save_fig(self, filename):
-        # build
+    def build(self):
         left = 0
 
         for feature_map in self.feature_maps:
@@ -106,17 +109,18 @@ class Model:
             layer.set_objects()
 
         # get bounding box
-        x = - config.bounding_box_margin - 30
-        y = min([f.get_top() for f in self.feature_maps]) - config.text_margin - config.text_size \
+        self.x = - config.bounding_box_margin - 30
+        self.y = min([f.get_top() for f in self.feature_maps]) - config.text_margin - config.text_size \
             - config.bounding_box_margin
-        width = self.feature_maps[-1].right + config.bounding_box_margin * 2 + 30 * 2
+        self.width = self.feature_maps[-1].right + config.bounding_box_margin * 2 + 30 * 2
         # TODO: automatically calculate the ad-hoc offset "30" from description length
-        height = - y * 2 + config.text_size
+        self.height = - self.y * 2 + config.text_size
 
-        # draw
-        string = '<svg xmlns="http://www.w3.org/2000/svg" ' \
-                 'xmlns:xlink="http://www.w3.org/1999/xlink" width= "{}" height="{}" '.format(width, height) + \
-                 'viewBox="{} {} {} {}">\n'.format(x, y, width, height)
+    def save_fig(self, filename):
+        self.build()
+        string = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ' \
+                 'width= "{}" height="{}" '.format(self.width, self.height) + \
+                 'viewBox="{} {} {} {}">\n'.format(self.x, self.y, self.width, self.height)
 
         for feature_map in self.feature_maps:
             string += feature_map.get_object_string()
