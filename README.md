@@ -3,18 +3,22 @@
 Python script for illustrating Convolutional Neural Networks (CNN).
 Inspired by the draw_convnet project [1].
 
-Models can be visualized by Keras-like ([Sequential](https://keras.io/models/sequential/)) model definitions.
-The result is saved as a SVG file, which can be imported by PowerPoint for further decorations.
-Other formats may be added later.
+Models can be visualized via Keras-like ([Sequential](https://keras.io/models/sequential/)) model definitions.
+The result can be saved as SVG file or pptx file!
 
 ## Requirements
-Currently, no additional package is required.
+python-pptx
+
+```sh
+pip install python-pptx
+```
 
 ## Example
 An example of visualizing AlexNet [2].
 
 ```python
 from convnet_drawer import Model, Conv2D, MaxPooling2D, Flatten, Dense
+from pptx_util import save_model_to_pptx
 
 model = Model(input_shape=(227, 227, 3))
 model.add(Conv2D(96, (11, 11), (4, 4)))
@@ -29,7 +33,12 @@ model.add(Flatten())
 model.add(Dense(4096))
 model.add(Dense(4096))
 model.add(Dense(1000))
+
+# save as svg file
 model.save_fig("example.svg")
+
+# save as pptx file
+save_model_to_pptx(model, "example.pptx")
 ```
 
 Result:
@@ -82,7 +91,7 @@ If the maximum channel size is small (e.g. 512), please increase `channel_scale`
 - [ ] Automatically calibrate the scale of feature maps for better visibility.
 - [x] Move hard-coded parameters to a config file or options.
 - [ ] Refactor Layer classes.
-- [ ] Draw with matplotlib? for other formats.
+- [x] ~~Draw with matplotlib? for other formats.~~ The model is now directly saved as a pptx file.
 
 ## Results
 LeNet

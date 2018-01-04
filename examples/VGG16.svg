@@ -227,10 +227,22 @@
 <line x1="2253.3965649833644" y1="4.725" x2="2295.620818128097" y2="4.725" stroke-width="1" stroke-dasharray="none" stroke="black"/>
 <line x1="2249.1530405048206" y1="-4.725" x2="2291.3772936495534" y2="-4.725" stroke-width="1" stroke-dasharray="none" stroke="black"/>
 <line x1="2253.3965649833644" y1="-2.2750000000000004" x2="2295.620818128097" y2="-2.2750000000000004" stroke-width="1" stroke-dasharray="none" stroke="black"/>
-<text x="2272.386929316459" y="-14.725" font-family="arial" font-size="14px" text-anchor="middle" fill="black">7x7x512</text><rect x="2345.620818128097" y="-218.0969684577976" width="4" height="436.1939369155952" stroke-width="1" stroke="black" fill="transparent"/>
-<text x="2347.620818128097" y="-228.0969684577976" font-family="arial" font-size="14px" text-anchor="middle" fill="black">25088</text><rect x="2399.620818128097" y="-73.51669471981023" width="4" height="147.03338943962046" stroke-width="1" stroke="black" fill="transparent"/>
-<text x="2401.620818128097" y="-83.51669471981023" font-family="arial" font-size="14px" text-anchor="middle" fill="black">4096</text><rect x="2453.620818128097" y="-73.51669471981023" width="4" height="147.03338943962046" stroke-width="1" stroke="black" fill="transparent"/>
-<text x="2455.620818128097" y="-83.51669471981023" font-family="arial" font-size="14px" text-anchor="middle" fill="black">4096</text><rect x="2507.620818128097" y="-31.547867224009657" width="4" height="63.095734448019314" stroke-width="1" stroke="black" fill="transparent"/>
+<text x="2272.386929316459" y="-14.725" font-family="arial" font-size="14px" text-anchor="middle" fill="black">7x7x512</text><line x1="2345.620818128097" y1="-218.0969684577976" x2="2345.620818128097" y2="218.0969684577976" stroke-width="1" stroke-dasharray="none" stroke="black"/>
+<line x1="2345.620818128097" y1="218.0969684577976" x2="2349.620818128097" y2="218.0969684577976" stroke-width="1" stroke-dasharray="none" stroke="black"/>
+<line x1="2349.620818128097" y1="218.0969684577976" x2="2349.620818128097" y2="-218.0969684577976" stroke-width="1" stroke-dasharray="none" stroke="black"/>
+<line x1="2349.620818128097" y1="-218.0969684577976" x2="2345.620818128097" y2="-218.0969684577976" stroke-width="1" stroke-dasharray="none" stroke="black"/>
+<text x="2347.620818128097" y="-228.0969684577976" font-family="arial" font-size="14px" text-anchor="middle" fill="black">25088</text><line x1="2399.620818128097" y1="-73.51669471981023" x2="2399.620818128097" y2="73.51669471981023" stroke-width="1" stroke-dasharray="none" stroke="black"/>
+<line x1="2399.620818128097" y1="73.51669471981023" x2="2403.620818128097" y2="73.51669471981023" stroke-width="1" stroke-dasharray="none" stroke="black"/>
+<line x1="2403.620818128097" y1="73.51669471981023" x2="2403.620818128097" y2="-73.51669471981023" stroke-width="1" stroke-dasharray="none" stroke="black"/>
+<line x1="2403.620818128097" y1="-73.51669471981023" x2="2399.620818128097" y2="-73.51669471981023" stroke-width="1" stroke-dasharray="none" stroke="black"/>
+<text x="2401.620818128097" y="-83.51669471981023" font-family="arial" font-size="14px" text-anchor="middle" fill="black">4096</text><line x1="2453.620818128097" y1="-73.51669471981023" x2="2453.620818128097" y2="73.51669471981023" stroke-width="1" stroke-dasharray="none" stroke="black"/>
+<line x1="2453.620818128097" y1="73.51669471981023" x2="2457.620818128097" y2="73.51669471981023" stroke-width="1" stroke-dasharray="none" stroke="black"/>
+<line x1="2457.620818128097" y1="73.51669471981023" x2="2457.620818128097" y2="-73.51669471981023" stroke-width="1" stroke-dasharray="none" stroke="black"/>
+<line x1="2457.620818128097" y1="-73.51669471981023" x2="2453.620818128097" y2="-73.51669471981023" stroke-width="1" stroke-dasharray="none" stroke="black"/>
+<text x="2455.620818128097" y="-83.51669471981023" font-family="arial" font-size="14px" text-anchor="middle" fill="black">4096</text><line x1="2507.620818128097" y1="-31.547867224009657" x2="2507.620818128097" y2="31.547867224009657" stroke-width="1" stroke-dasharray="none" stroke="black"/>
+<line x1="2507.620818128097" y1="31.547867224009657" x2="2511.620818128097" y2="31.547867224009657" stroke-width="1" stroke-dasharray="none" stroke="black"/>
+<line x1="2511.620818128097" y1="31.547867224009657" x2="2511.620818128097" y2="-31.547867224009657" stroke-width="1" stroke-dasharray="none" stroke="black"/>
+<line x1="2511.620818128097" y1="-31.547867224009657" x2="2507.620818128097" y2="-31.547867224009657" stroke-width="1" stroke-dasharray="none" stroke="black"/>
 <text x="2509.620818128097" y="-41.54786722400966" font-family="arial" font-size="14px" text-anchor="middle" fill="black">1000</text><line x1="67.89639165669999" y1="0.9750000000000002" x2="67.89639165669999" y2="-2.025" stroke-width="1" stroke-dasharray="none" stroke="blue"/>
 <line x1="69.82957370163176" y1="0.9750000000000002" x2="69.82957370163176" y2="-2.025" stroke-width="1" stroke-dasharray="1" stroke="blue"/>
 <line x1="69.71504500464731" y1="2.025" x2="69.71504500464731" y2="-0.9750000000000002" stroke-width="1" stroke-dasharray="none" stroke="blue"/>
