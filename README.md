@@ -1,4 +1,4 @@
-# draw-convnet
+# ConvNet Drawer
 
 Python script for illustrating Convolutional Neural Networks (CNN).
 Inspired by the draw_convnet project [1].
