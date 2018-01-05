@@ -28,7 +28,7 @@ class MyPresentation:
         connector = self.shapes.add_connector(MSO_CONNECTOR.STRAIGHT, Pt(x1), Pt(y1), Pt(x2), Pt(y2))
         connector.ln = connector.get_or_add_ln()
         line = LineFormat(connector)
-        line.width = width
+        line.width = Pt(width)
         line.fill.solid()
 
         if color == "black":
