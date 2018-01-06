@@ -84,6 +84,10 @@ This parameter rescale actual channel size `c` to `c_` for visualization as:
 
 If the maximum channel size is small (e.g. 512), please increase `channel_scale`.
 
+Check how the other parameters works:
+
+<img src="parameters.png">
+
 
 ## TODOs
 - [x] Implement padding option for Conv2D and Pooling layers.
