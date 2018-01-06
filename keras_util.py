@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from models import AlexNet
+from keras_models import AlexNet
 from convnet_drawer import Model, Conv2D, MaxPooling2D, Flatten, Dense
 
 
