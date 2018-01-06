@@ -13,8 +13,10 @@ python-pptx
 pip install python-pptx
 ```
 
-## Example
-An example of visualizing AlexNet [2].
+## Usage
+Write a script to define and save a model. An example of visualizing AlexNet [2] is as follows.
+
+### Write and save convnet_drawer.Model
 
 ```python
 from convnet_drawer import Model, Conv2D, MaxPooling2D, Flatten, Dense
@@ -45,8 +47,27 @@ Result:
 
 <img src="examples/AlexNet.svg">
 
-## Usage
-Write a script to define and save a model like [examples](examples).
+The other examples can be found [here](examples).
+
+### Convert Keras sequential model
+Keras sequential model can be converted to `convnet_drawer.Model` (thanks to @wakamezake).
+Only Conv2D, MaxPooling2D, Flatten, Dense layers are supported for this conversion.
+
+```python
+from keras_util import convert_drawer_model
+from keras_models import AlexNet
+from pptx_util import save_model_to_pptx
+
+# get Keras sequential model
+keras_sequential_model = AlexNet.get_model()
+model = convert_drawer_model(keras_sequential_model)
+
+# save as svg file
+model.save_fig("example.svg")
+
+# save as pptx file
+save_model_to_pptx(model, "example.pptx")
+```
 
 ### Supported Layers
 
