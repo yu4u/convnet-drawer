@@ -48,18 +48,6 @@ class Text:
                'text-anchor="middle" fill="{}">{}</text>'.format(self.x, self.y, self.size, self.color, self.body)
 
 
-class Rect:
-    def __init__(self, x, y, w, h, color="black", stroke_width=1):
-        self.x, self.y = x, y
-        self.w, self.h = w, h
-        self.color = color
-        self.stroke_width = stroke_width
-
-    def get_svg_string(self):
-        return '<rect x="{}" y="{}" width="{}" height="{}" stroke-width="{}" stroke="{}"' \
-               ' fill="transparent"/>\n'.format(self.x, self.y, self.w, self.h, self.stroke_width, self.color)
-
-
 class Model:
     def __init__(self, input_shape):
         self.layers = []
