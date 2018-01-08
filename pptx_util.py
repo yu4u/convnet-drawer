@@ -36,7 +36,7 @@ class MyPresentation:
         elif color == "blue":
             line.fill.fore_color.rgb = RGBColor(0, 0, 255)
 
-        if dasharray != "none":
+        if dasharray:
             line.dash_style = MSO_LINE.DASH
 
     def add_text(self, x, y, body, color, size):

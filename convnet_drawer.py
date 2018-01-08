@@ -22,7 +22,7 @@ def configure(theta=- math.pi / 6,
 
 
 class Line:
-    def __init__(self, x1, y1, x2, y2, color="black", width=1, dasharray="none"):
+    def __init__(self, x1, y1, x2, y2, color="black", width=1, dasharray=None):
         self.x1, self.y1 = x1, y1
         self.x2, self.y2 = x2, y2
         self.color = color
@@ -30,8 +30,9 @@ class Line:
         self.dasharray = dasharray
 
     def get_svg_string(self):
+        stroke_dasharray = self.dasharray if self.dasharray else "none"
         return '<line x1="{}" y1="{}" x2="{}" y2="{}" stroke-width="{}" stroke-dasharray="{}" stroke="{}"/>\n'.format(
-            self.x1, self.y1, self.x2, self.y2, self.width, self.dasharray, self.color)
+            self.x1, self.y1, self.x2, self.y2, self.width, stroke_dasharray, self.color)
 
 
 class Text:
@@ -252,8 +253,8 @@ class Layer:
                   -self.kernel_size[1] * config.ratio * math.sin(config.theta) / 2 + self.kernel_size[0] / 2)
         end = self.next_feature_map.get_right_for_conv()
         left, self.objects = get_rectangular(self.kernel_size[0], self.kernel_size[1], c, left, color="blue")
-        self.objects.append(Line(start1[0], start1[1], end[0], end[1], color="blue", dasharray="none"))
-        self.objects.append(Line(start2[0], start2[1], end[0], end[1], color="blue", dasharray="none"))
+        self.objects.append(Line(start1[0], start1[1], end[0], end[1], color="blue"))
+        self.objects.append(Line(start2[0], start2[1], end[0], end[1], color="blue"))
 
         x = (self.prev_feature_map.right + self.next_feature_map.left) / 2
         y = max(self.prev_feature_map.get_bottom(), self.next_feature_map.get_bottom()) + config.text_margin \
@@ -360,10 +361,10 @@ def get_rectangular(h, w, c, dx=0, color="black"):
         for x2, y2 in [[0, 0], p[(i + 1) % 3]]:
             for x3, y3 in [[0, 0], p[(i + 2) % 3]]:
                 lines.append(Line(x2 + x3 + dx, y2 + y3 + dy, x1 + x2 + x3 + dx, y1 + y2 + y3 + dy,
-                                  color=color, dasharray="none"))
+                                  color=color))
 
     for i in [1, 6, 8]:
-        lines[i].dasharray = "1"
+        lines[i].dasharray = 1
 
     return right, lines
 
