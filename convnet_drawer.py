@@ -22,7 +22,7 @@ def configure(theta=- math.pi / 6,
 
 
 class Line:
-    def __init__(self, x1, y1, x2, y2, color="black", width=1, dasharray=None):
+    def __init__(self, x1, y1, x2, y2, color=(0, 0, 0), width=1, dasharray=None):
         self.x1, self.y1 = x1, y1
         self.x2, self.y2 = x2, y2
         self.color = color
@@ -31,7 +31,7 @@ class Line:
 
     def get_svg_string(self):
         stroke_dasharray = self.dasharray if self.dasharray else "none"
-        return '<line x1="{}" y1="{}" x2="{}" y2="{}" stroke-width="{}" stroke-dasharray="{}" stroke="{}"/>\n'.format(
+        return '<line x1="{}" y1="{}" x2="{}" y2="{}" stroke-width="{}" stroke-dasharray="{}" stroke="rgb{}"/>\n'.format(
             self.x1, self.y1, self.x2, self.y2, self.width, stroke_dasharray, self.color)
 
 
@@ -240,9 +240,9 @@ class Layer:
         start2 = (left + c + self.kernel_size[1] * config.ratio * math.cos(config.theta),
                   -self.kernel_size[1] * config.ratio * math.sin(config.theta) / 2 + self.kernel_size[0] / 2)
         end = self.next_feature_map.get_right_for_conv()
-        left, self.objects = get_rectangular(self.kernel_size[0], self.kernel_size[1], c, left, color="blue")
-        self.objects.append(Line(start1[0], start1[1], end[0], end[1], color="blue"))
-        self.objects.append(Line(start2[0], start2[1], end[0], end[1], color="blue"))
+        left, self.objects = get_rectangular(self.kernel_size[0], self.kernel_size[1], c, left, color=(0, 0, 255))
+        self.objects.append(Line(start1[0], start1[1], end[0], end[1], color=(0, 0, 255)))
+        self.objects.append(Line(start2[0], start2[1], end[0], end[1], color=(0, 0, 255)))
 
         x = (self.prev_feature_map.right + self.next_feature_map.left) / 2
         y = max(self.prev_feature_map.get_bottom(), self.next_feature_map.get_bottom()) + config.text_margin \
@@ -325,8 +325,8 @@ class Dense(Layer):
         y12 = math.pow(self.prev_feature_map.c, config.channel_scale) / 2
         x2 = self.next_feature_map.left
         y2 = - math.pow(self.next_feature_map.c, config.channel_scale) / 4
-        self.objects.append(Line(x1, y11, x2, y2, color="blue", dasharray=2))
-        self.objects.append(Line(x1, y12, x2, y2, color="blue", dasharray=2))
+        self.objects.append(Line(x1, y11, x2, y2, color=(0, 0, 255), dasharray=2))
+        self.objects.append(Line(x1, y12, x2, y2, color=(0, 0, 255), dasharray=2))
 
         x = (self.prev_feature_map.right + self.next_feature_map.left) / 2
         y = max(self.prev_feature_map.get_bottom(), self.next_feature_map.get_bottom()) + config.text_margin \
@@ -336,7 +336,7 @@ class Dense(Layer):
             self.objects.append(Text(x, y + i * config.text_size, "{}".format(description), size=config.text_size))
 
 
-def get_rectangular(h, w, c, dx=0, color="black"):
+def get_rectangular(h, w, c, dx=0, color=(0, 0, 0)):
     p = [[0, -h],
          [w * config.ratio * math.cos(config.theta), -w * config.ratio * math.sin(config.theta)],
          [c, 0]]

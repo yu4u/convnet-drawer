@@ -30,11 +30,7 @@ class MyPresentation:
         line = LineFormat(connector)
         line.width = Pt(width)
         line.fill.solid()
-
-        if color == "black":
-            line.fill.fore_color.rgb = RGBColor(0, 0, 0)
-        elif color == "blue":
-            line.fill.fore_color.rgb = RGBColor(0, 0, 255)
+        line.fill.fore_color.rgb = RGBColor(*color)
 
         if dasharray == 1:
             line.dash_style = MSO_LINE.SQUARE_DOT
