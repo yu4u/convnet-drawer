@@ -159,7 +159,7 @@ class FeatureMap3D(FeatureMap):
         self.h = h
         self.w = w
         self.c = c
-        super().__init__()
+        super(FeatureMap3D, self).__init__()
 
     def set_objects(self, left):
         self.left = left
@@ -190,7 +190,7 @@ class FeatureMap3D(FeatureMap):
 class FeatureMap1D(FeatureMap):
     def __init__(self, c):
         self.c = c
-        super().__init__()
+        super(FeatureMap1D, self).__init__()
 
     def set_objects(self, left):
         self.left = left
@@ -271,7 +271,7 @@ class PoolingLayer(Layer):
     def __init__(self, pool_size=(2, 2), strides=None, padding="valid"):
         if not strides:
             strides = pool_size
-        super().__init__(kernel_size=pool_size, strides=strides, padding=padding)
+        super(PoolingLayer, self).__init__(kernel_size=pool_size, strides=strides, padding=padding)
 
 
 class AveragePooling2D(PoolingLayer):
@@ -288,7 +288,7 @@ class MaxPooling2D(PoolingLayer):
 
 class GlobalAveragePooling2D(Layer):
     def __init__(self):
-        super().__init__()
+        super(GlobalAveragePooling2D, self).__init__()
 
     def get_description(self):
         return ["global avepool"]
@@ -304,7 +304,7 @@ class GlobalAveragePooling2D(Layer):
 
 class Flatten(Layer):
     def __init__(self):
-        super().__init__()
+        super(Flatten, self).__init__()
 
     def get_description(self):
         return ["flatten"]
@@ -320,7 +320,7 @@ class Flatten(Layer):
 
 class Dense(Layer):
     def __init__(self, units):
-        super().__init__(filters=units)
+        super(Dense, self).__init__(filters=units)
 
     def get_description(self):
         return ["dense"]
