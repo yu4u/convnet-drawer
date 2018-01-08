@@ -13,6 +13,12 @@ python-pptx
 pip install python-pptx
 ```
 
+Keras (if you want to convert Keras sequential model)
+
+```sh
+pip install keras
+```
+
 ## Usage
 Write a script to define and save a model. An example of visualizing AlexNet [2] is as follows.
 
