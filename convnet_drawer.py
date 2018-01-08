@@ -1,5 +1,6 @@
-import config
 import math
+from abc import ABCMeta, abstractmethod
+import config
 
 
 def configure(theta=- math.pi / 6,
@@ -65,14 +66,16 @@ class Model:
         if len(input_shape) != 3:
             raise ValueError("input_shape should be rank 3 but received  {}".format(input_shape))
 
-        self.feature_maps = [FeatureMap(*input_shape)]
+        self.feature_maps = []
         self.x = None
         self.y = None
         self.width = None
         self.height = None
 
+        self.feature_maps.append(FeatureMap3D(*input_shape))
+
     def add_feature_map(self, layer):
-        if isinstance(self.feature_maps[-1], FeatureMap):
+        if isinstance(self.feature_maps[-1], FeatureMap3D):
             h, w = self.feature_maps[-1].h, self.feature_maps[-1].w
             filters = layer.filters if layer.filters else self.feature_maps[-1].c
 
@@ -88,7 +91,7 @@ class Model:
                     new_h = math.ceil((h - layer.kernel_size[0] + 1) / layer.strides[0])
                     new_w = math.ceil((w - layer.kernel_size[1] + 1) / layer.strides[1])
 
-                self.feature_maps.append(FeatureMap(new_h, new_w, filters))
+                self.feature_maps.append(FeatureMap3D(new_h, new_w, filters))
         else:
             self.feature_maps.append(FeatureMap1D(layer.filters))
 
@@ -135,13 +138,35 @@ class Model:
 
 
 class FeatureMap:
+    __metaclass__ = ABCMeta
+
+    def __init__(self):
+        self.left = None
+        self.right = None
+        self.objects = None
+
+    @abstractmethod
+    def set_objects(self, left):
+        pass
+
+    def get_object_string(self):
+        return get_object_string(self.objects)
+
+    @abstractmethod
+    def get_top(self):
+        pass
+
+    @abstractmethod
+    def get_bottom(self):
+        pass
+
+
+class FeatureMap3D(FeatureMap):
     def __init__(self, h, w, c):
         self.h = h
         self.w = w
         self.c = c
-        self.objects = None
-        self.left = None
-        self.right = None
+        super().__init__()
 
     def set_objects(self, left):
         self.left = left
@@ -152,9 +177,6 @@ class FeatureMap:
         self.objects.append(Text(x, y, "{}x{}x{}".format(self.h, self.w, self.c), size=config.text_size))
 
         return self.right
-
-    def get_object_string(self):
-        return get_object_string(self.objects)
 
     def get_left_for_conv(self):
         return self.left + self.w * config.ratio * math.cos(config.theta) / 2
@@ -172,12 +194,10 @@ class FeatureMap:
         return x, y
 
 
-class FeatureMap1D:
+class FeatureMap1D(FeatureMap):
     def __init__(self, c):
         self.c = c
-        self.objects = None
-        self.left = None
-        self.right = None
+        super().__init__()
 
     def set_objects(self, left):
         self.left = left
@@ -197,9 +217,6 @@ class FeatureMap1D:
             self.c), size=config.text_size))
 
         return self.right
-
-    def get_object_string(self):
-        return get_object_string(self.objects)
 
     def get_top(self):
         return - math.pow(self.c, config.channel_scale) / 2
@@ -348,8 +365,8 @@ def get_rectangular(h, w, c, dx=0, color="black"):
     return right, lines
 
 
-def get_object_string(lines):
-    return "".join([line.get_svg_string() for line in lines])
+def get_object_string(objects):
+    return "".join([obj.get_svg_string() for obj in objects])
 
 
 def main():
