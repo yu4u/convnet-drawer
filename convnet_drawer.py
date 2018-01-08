@@ -226,6 +226,8 @@ class FeatureMap1D(FeatureMap):
 
 
 class Layer:
+    __metaclass__ = ABCMeta
+
     def __init__(self, filters=None, kernel_size=None, strides=(1, 1), padding="valid"):
         self.filters = filters
         self.kernel_size = kernel_size
@@ -236,6 +238,7 @@ class Layer:
         self.next_feature_map = None
         self.description = None
 
+    @abstractmethod
     def get_description(self):
         return None
 
