@@ -121,7 +121,7 @@ Check how the other parameters works:
 - [x] Add some effects to Dense layer (and Flatten / GlobalAveragePooling2D).
 - [ ] Automatically calibrate the scale of feature maps for better visibility.
 - [x] Move hard-coded parameters to a config file or options.
-- [ ] Refactor Layer classes.
+- [x] Refactor Layer classes.
 - [x] ~~Draw with matplotlib? for other formats.~~ The model is now directly saved as a pptx file.
 
 ## Results
