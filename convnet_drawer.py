@@ -49,7 +49,7 @@ class Text:
 
     def get_svg_string(self):
         return '<text x="{}" y="{}" font-family="arial" font-size="{}px" ' \
-               'text-anchor="middle" fill="rgb{}">{}</text>'.format(self.x, self.y, self.size, self.color, self.body)
+               'text-anchor="middle" fill="rgb{}">{}</text>\n'.format(self.x, self.y, self.size, self.color, self.body)
 
 
 class Model:
