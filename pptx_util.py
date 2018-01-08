@@ -36,10 +36,13 @@ class MyPresentation:
         elif color == "blue":
             line.fill.fore_color.rgb = RGBColor(0, 0, 255)
 
-        if dasharray:
+        if dasharray == 1:
+            line.dash_style = MSO_LINE.SQUARE_DOT
+        elif dasharray == 2:
             line.dash_style = MSO_LINE.DASH
 
     def add_text(self, x, y, body, color, size):
+        # TODO: set color
         textbox = self.shapes.add_textbox(Pt(x), Pt(y), Pt(0), Pt(0))
         textbox.text = body
         text_frame = textbox.text_frame
