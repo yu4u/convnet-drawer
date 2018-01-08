@@ -3,26 +3,44 @@ from abc import ABCMeta, abstractmethod
 import config
 
 
-def configure(theta=- math.pi / 6,
-              ratio=0.7,
-              bounding_box_margin=10,
-              inter_layer_margin=50,
-              text_margin=10,
-              channel_scale=3 / 5,
-              text_size=14,
-              one_dim_width=4,
-              line_color_feature_map=(0, 0, 0),
-              line_color_layer=(0, 0, 0)):
-    config.theta = theta
-    config.ratio = ratio
-    config.bounding_box_margin = bounding_box_margin
-    config.inter_layer_margin = inter_layer_margin
-    config.text_margin = text_margin
-    config.channel_scale = channel_scale
-    config.text_size = text_size
-    config.one_dim_width = one_dim_width
-    config.line_color_feature_map = line_color_feature_map
-    config.line_color_layer = line_color_layer
+def configure(
+        theta=None,
+        ratio=None,
+        bounding_box_margin=None,
+        inter_layer_margin=None,
+        text_margin=None,
+        channel_scale=None,
+        text_size=None,
+        one_dim_width=None,
+        line_color_feature_map=None,
+        line_color_layer=None,
+        text_color_feature_map=None,
+        text_color_layer=None
+):
+    if theta:
+        config.theta = theta
+    if ratio:
+        config.ratio = ratio
+    if bounding_box_margin:
+        config.bounding_box_margin = bounding_box_margin
+    if inter_layer_margin:
+        config.inter_layer_margin = inter_layer_margin
+    if text_margin:
+        config.text_margin = text_margin
+    if channel_scale:
+        config.channel_scale = channel_scale
+    if text_size:
+        config.text_size = text_size
+    if one_dim_width:
+        config.one_dim_width = one_dim_width
+    if line_color_feature_map:
+        config.line_color_feature_map = line_color_feature_map
+    if line_color_layer:
+        config.line_color_layer = line_color_layer
+    if text_color_feature_map:
+        config.text_color_feature_map = text_color_feature_map
+    if text_color_layer:
+        config.text_color_layer = text_color_layer
 
 
 class Line:
@@ -167,7 +185,8 @@ class FeatureMap3D(FeatureMap):
         self.right, self.objects = get_rectangular(self.h, self.w, c_, left, config.line_color_feature_map)
         x = (left + self.right) / 2
         y = self.get_top() - config.text_margin
-        self.objects.append(Text(x, y, "{}x{}x{}".format(self.h, self.w, self.c), size=config.text_size))
+        self.objects.append(Text(x, y, "{}x{}x{}".format(self.h, self.w, self.c), color=config.text_color_feature_map,
+                                 size=config.text_size))
 
         return self.right
 
@@ -208,7 +227,7 @@ class FeatureMap1D(FeatureMap):
         self.objects.append(Line(x2, y2, x2, y1, line_color))
         self.objects.append(Line(x2, y1, x1, y1, line_color))
         self.objects.append(Text(left + config.one_dim_width / 2, - c_ / 2 - config.text_margin, "{}".format(
-            self.c), size=config.text_size))
+            self.c), color=config.text_color_feature_map, size=config.text_size))
 
         return self.right
 
@@ -255,7 +274,8 @@ class Layer:
             + config.text_size
 
         for i, description in enumerate(self.get_description()):
-            self.objects.append(Text(x, y + i * config.text_size, "{}".format(description), size=config.text_size))
+            self.objects.append(Text(x, y + i * config.text_size, "{}".format(description),
+                                     color=config.text_color_layer, size=config.text_size))
 
     def get_object_string(self):
         return get_object_string(self.objects)
@@ -299,7 +319,8 @@ class GlobalAveragePooling2D(Layer):
             + config.text_size
 
         for i, description in enumerate(self.get_description()):
-            self.objects.append(Text(x, y + i * config.text_size, "{}".format(description), size=config.text_size))
+            self.objects.append(Text(x, y + i * config.text_size, "{}".format(description),
+                                     color=config.text_color_layer, size=config.text_size))
 
 
 class Flatten(Layer):
@@ -315,7 +336,8 @@ class Flatten(Layer):
             + config.text_size
 
         for i, description in enumerate(self.get_description()):
-            self.objects.append(Text(x, y + i * config.text_size, "{}".format(description), size=config.text_size))
+            self.objects.append(Text(x, y + i * config.text_size, "{}".format(description),
+                                     color=config.text_color_layer, size=config.text_size))
 
 
 class Dense(Layer):
@@ -340,7 +362,8 @@ class Dense(Layer):
             + config.text_size
 
         for i, description in enumerate(self.get_description()):
-            self.objects.append(Text(x, y + i * config.text_size, "{}".format(description), size=config.text_size))
+            self.objects.append(Text(x, y + i * config.text_size, "{}".format(description),
+                                     color=config.text_color_layer, size=config.text_size))
 
 
 def get_rectangular(h, w, c, dx=0, color=(0, 0, 0)):
