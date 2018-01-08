@@ -77,29 +77,20 @@ save_model_to_pptx(model, "example.pptx")
 
 ### Supported Layers
 
-#### Conv2D
-```Conv2D(filters=None, kernel_size=None, strides=(1, 1), padding="valid")```
-
-e.g. `Conv2D(96, (11, 11), (4, 4)))`
-
-
-#### MaxPooling2D, AveragePooling2D
-```MaxPooling2D(pool_size=(2, 2), strides=None, padding="valid")```
-
-e.g. `MaxPooling2D((3, 3), strides=(2, 2))`
-
-If `strides = None`, stride is set to be `pool_size`.
-
-#### GlobalAveragePooling2D
-```GlobalAveragePooling2D()```
-
-#### Flatten
-```Flatten()```
-
-#### Dense
-```Dense(units)```
-
-e.g. `Dense(4096)`
+- *Conv2D*
+  - ```Conv2D(filters=None, kernel_size=None, strides=(1, 1), padding="valid")```
+  - e.g. `Conv2D(96, (11, 11), (4, 4)))`
+- *MaxPooling2D*, *AveragePooling2D*
+  - ```MaxPooling2D(pool_size=(2, 2), strides=None, padding="valid")```
+  - e.g. `MaxPooling2D((3, 3), strides=(2, 2))`
+  - If `strides = None`, stride is set to be `pool_size`.
+- *GlobalAveragePooling2D*
+  - ```GlobalAveragePooling2D()```
+- *Flatten*
+  - ```Flatten()```
+- *Dense*
+  - ```Dense(units)```
+  - e.g. `Dense(4096)`
 
 ### Visualization Parameters
 Visualization Parameters can be found in [config.py](config.py).
