@@ -36,7 +36,7 @@ class Line:
 
 
 class Text:
-    def __init__(self, x, y, body, color="black", size=20):
+    def __init__(self, x, y, body, color=(0, 0, 0), size=20):
         self.x = x
         self.y = y
         self.body = body
@@ -45,7 +45,7 @@ class Text:
 
     def get_svg_string(self):
         return '<text x="{}" y="{}" font-family="arial" font-size="{}px" ' \
-               'text-anchor="middle" fill="{}">{}</text>'.format(self.x, self.y, self.size, self.color, self.body)
+               'text-anchor="middle" fill="rgb{}">{}</text>'.format(self.x, self.y, self.size, self.color, self.body)
 
 
 class Model:
