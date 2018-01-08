@@ -10,7 +10,9 @@ def configure(theta=- math.pi / 6,
               text_margin=10,
               channel_scale=3 / 5,
               text_size=14,
-              one_dim_width=4):
+              one_dim_width=4,
+              line_color_feature_map=(0, 0, 0),
+              line_color_layer=(0, 0, 0)):
     config.theta = theta
     config.ratio = ratio
     config.bounding_box_margin = bounding_box_margin
@@ -19,6 +21,8 @@ def configure(theta=- math.pi / 6,
     config.channel_scale = channel_scale
     config.text_size = text_size
     config.one_dim_width = one_dim_width
+    config.line_color_feature_map = line_color_feature_map
+    config.line_color_layer = line_color_layer
 
 
 class Line:
@@ -160,7 +164,7 @@ class FeatureMap3D(FeatureMap):
     def set_objects(self, left):
         self.left = left
         c_ = math.pow(self.c, config.channel_scale)
-        self.right, self.objects = get_rectangular(self.h, self.w, c_, left)
+        self.right, self.objects = get_rectangular(self.h, self.w, c_, left, config.line_color_feature_map)
         x = (left + self.right) / 2
         y = self.get_top() - config.text_margin
         self.objects.append(Text(x, y, "{}x{}x{}".format(self.h, self.w, self.c), size=config.text_size))
@@ -197,11 +201,12 @@ class FeatureMap1D(FeatureMap):
         y1 = - c_ / 2
         x2 = left + config.one_dim_width
         y2 = c_ / 2
+        line_color = config.line_color_feature_map
         self.objects = []
-        self.objects.append(Line(x1, y1, x1, y2))
-        self.objects.append(Line(x1, y2, x2, y2))
-        self.objects.append(Line(x2, y2, x2, y1))
-        self.objects.append(Line(x2, y1, x1, y1))
+        self.objects.append(Line(x1, y1, x1, y2, line_color))
+        self.objects.append(Line(x1, y2, x2, y2, line_color))
+        self.objects.append(Line(x2, y2, x2, y1, line_color))
+        self.objects.append(Line(x2, y1, x1, y1, line_color))
         self.objects.append(Text(left + config.one_dim_width / 2, - c_ / 2 - config.text_margin, "{}".format(
             self.c), size=config.text_size))
 
@@ -240,9 +245,10 @@ class Layer:
         start2 = (left + c + self.kernel_size[1] * config.ratio * math.cos(config.theta),
                   -self.kernel_size[1] * config.ratio * math.sin(config.theta) / 2 + self.kernel_size[0] / 2)
         end = self.next_feature_map.get_right_for_conv()
-        left, self.objects = get_rectangular(self.kernel_size[0], self.kernel_size[1], c, left, color=(0, 0, 255))
-        self.objects.append(Line(start1[0], start1[1], end[0], end[1], color=(0, 0, 255)))
-        self.objects.append(Line(start2[0], start2[1], end[0], end[1], color=(0, 0, 255)))
+        line_color = config.line_color_layer
+        left, self.objects = get_rectangular(self.kernel_size[0], self.kernel_size[1], c, left, color=line_color)
+        self.objects.append(Line(start1[0], start1[1], end[0], end[1], color=line_color))
+        self.objects.append(Line(start2[0], start2[1], end[0], end[1], color=line_color))
 
         x = (self.prev_feature_map.right + self.next_feature_map.left) / 2
         y = max(self.prev_feature_map.get_bottom(), self.next_feature_map.get_bottom()) + config.text_margin \
@@ -325,8 +331,9 @@ class Dense(Layer):
         y12 = math.pow(self.prev_feature_map.c, config.channel_scale) / 2
         x2 = self.next_feature_map.left
         y2 = - math.pow(self.next_feature_map.c, config.channel_scale) / 4
-        self.objects.append(Line(x1, y11, x2, y2, color=(0, 0, 255), dasharray=2))
-        self.objects.append(Line(x1, y12, x2, y2, color=(0, 0, 255), dasharray=2))
+        line_color = config.line_color_layer
+        self.objects.append(Line(x1, y11, x2, y2, color=line_color, dasharray=2))
+        self.objects.append(Line(x1, y12, x2, y2, color=line_color, dasharray=2))
 
         x = (self.prev_feature_map.right + self.next_feature_map.left) / 2
         y = max(self.prev_feature_map.get_bottom(), self.next_feature_map.get_bottom()) + config.text_margin \

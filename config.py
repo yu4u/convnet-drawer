@@ -8,3 +8,5 @@ text_margin = 10
 channel_scale = 3 / 5
 text_size = 14
 one_dim_width = 4
+line_color_feature_map = (0, 0, 0)
+line_color_layer = (0, 0, 255)
