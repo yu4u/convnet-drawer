@@ -94,7 +94,7 @@ save_model_to_pptx(model, "example.pptx")
 
 ### Visualization Parameters
 Visualization Parameters can be found in [config.py](config.py).
-Please adjust these parameters using `configure` function before model definition (see [LeNet.py](examples/LeNet.py)).
+Please adjust these parameters before model definition (see [LeNet.py](examples/LeNet.py)).
 The most important parameter is `channel_scale = 3 / 5`.
 This parameter rescale actual channel size `c` to `c_` for visualization as:
 

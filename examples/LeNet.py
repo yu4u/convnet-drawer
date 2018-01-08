@@ -3,10 +3,13 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from convnet_drawer import Model, Conv2D, MaxPooling2D, Flatten, Dense, configure
 from pptx_util import save_model_to_pptx
+import config
 
 
 def main():
-    configure(inter_layer_margin=65, channel_scale=4 / 5)
+    config.inter_layer_margin = 65
+    config.channel_scale = 4 / 5
+
     model = Model(input_shape=(32, 32, 1))
     model.add(Conv2D(6, (5, 5), (1, 1)))
     model.add(MaxPooling2D((2, 2)))
