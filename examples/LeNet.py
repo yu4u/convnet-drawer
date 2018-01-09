@@ -1,7 +1,7 @@
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from convnet_drawer import Model, Conv2D, MaxPooling2D, Flatten, Dense, configure
+from convnet_drawer import Model, Conv2D, MaxPooling2D, Flatten, Dense
 from pptx_util import save_model_to_pptx
 import config
 
