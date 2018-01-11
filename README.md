@@ -7,7 +7,7 @@ Models can be visualized via Keras-like ([Sequential](https://keras.io/models/se
 The result can be saved as SVG file or pptx file!
 
 ## Requirements
-python-pptx
+python-pptx (if you want to save models as pptx)
 
 ```sh
 pip install python-pptx
@@ -19,6 +19,12 @@ Keras (if you want to convert Keras sequential model)
 pip install keras
 ```
 
+matplotlib (if you want to save models via matplotlib)
+
+```bash
+pip install matplotlib
+```
+
 ## Usage
 Write a script to define and save a model. An example of visualizing AlexNet [2] is as follows.
 
@@ -27,6 +33,7 @@ Write a script to define and save a model. An example of visualizing AlexNet [2]
 ```python
 from convnet_drawer import Model, Conv2D, MaxPooling2D, Flatten, Dense
 from pptx_util import save_model_to_pptx
+from matplotlib_util import save_model_to_file
 
 model = Model(input_shape=(227, 227, 3))
 model.add(Conv2D(96, (11, 11), (4, 4)))
@@ -47,6 +54,9 @@ model.save_fig("example.svg")
 
 # save as pptx file
 save_model_to_pptx(model, "example.pptx")
+
+# save via matplotlib
+save_model_to_file(model, "example.pdf")
 ```
 
 Result:
@@ -63,6 +73,7 @@ Only Conv2D, MaxPooling2D, Flatten, Dense layers are supported for this conversi
 from keras_util import convert_drawer_model
 from keras_models import AlexNet
 from pptx_util import save_model_to_pptx
+from matplotlib_util import save_model_to_file
 
 # get Keras sequential model
 keras_sequential_model = AlexNet.get_model()
@@ -73,6 +84,9 @@ model.save_fig("example.svg")
 
 # save as pptx file
 save_model_to_pptx(model, "example.pptx")
+
+# save via matplotlib
+save_model_to_file(model, "example.pdf")
 ```
 
 ### Supported Layers
