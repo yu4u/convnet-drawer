@@ -120,6 +120,8 @@ Check how the other parameters works:
 
 <img src="parameters.png">
 
+#### Default Values
+
 ```python
 theta = - math.pi / 6
 ratio = 0.7
