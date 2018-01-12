@@ -146,6 +146,10 @@ VGG16
 
 <img src="examples/VGG16.svg">
 
+AlexNet saved by matplotlib with plt.xkcd()
+
+<img src="examples/AlexNet_xkcd.png">
+
 ## References
 [1] https://github.com/gwding/draw_convnet
 
