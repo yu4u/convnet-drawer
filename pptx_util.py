@@ -26,7 +26,10 @@ class MyPresentation:
 
     def add_line(self, x1, y1, x2, y2, color, width, dasharray):
         connector = self.shapes.add_connector(MSO_CONNECTOR.STRAIGHT, Pt(x1), Pt(y1), Pt(x2), Pt(y2))
-        connector.ln = connector.get_or_add_ln()
+
+        if not hasattr(connector, "ln"):
+            connector.ln = connector.get_or_add_ln()
+
         line = LineFormat(connector)
         line.width = Pt(width)
         line.fill.solid()
