@@ -54,6 +54,14 @@ class Model:
                 self.feature_maps.append(FeatureMap1D(filters))
             elif isinstance(layer, Flatten):
                 self.feature_maps.append(FeatureMap1D(h * w * filters))
+            elif isinstance(layer, Deconv2D):
+                if layer.padding == "same":
+                    new_h = h * layer.strides[0]
+                    new_w = w * layer.strides[1]
+                else:
+                    new_h = h * layer.strides[0] + max(layer.kernel_size[0] - layer.strides[0], 0)
+                    new_w = w * layer.strides[1] + max(layer.kernel_size[1] - layer.strides[1], 0)
+                self.feature_maps.append(FeatureMap3D(new_h, new_w, filters))
             else:
                 if layer.padding == "same":
                     new_h = math.ceil(h / layer.strides[0])
@@ -61,7 +69,6 @@ class Model:
                 else:
                     new_h = math.ceil((h - layer.kernel_size[0] + 1) / layer.strides[0])
                     new_w = math.ceil((w - layer.kernel_size[1] + 1) / layer.strides[1])
-
                 self.feature_maps.append(FeatureMap3D(new_h, new_w, filters))
         else:
             self.feature_maps.append(FeatureMap1D(layer.filters))
@@ -244,6 +251,12 @@ class Layer:
 class Conv2D(Layer):
     def get_description(self):
         return ["conv{}x{}, {}".format(self.kernel_size[0], self.kernel_size[1], self.filters),
+                "stride {}".format(self.strides)]
+
+
+class Deconv2D(Layer):
+    def get_description(self):
+        return ["deconv{}x{}, {}".format(self.kernel_size[0], self.kernel_size[1], self.filters),
                 "stride {}".format(self.strides)]
 
 

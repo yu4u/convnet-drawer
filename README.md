@@ -94,6 +94,9 @@ save_model_to_file(model, "example.pdf")
 - *Conv2D*
   - ```Conv2D(filters=None, kernel_size=None, strides=(1, 1), padding="valid")```
   - e.g. `Conv2D(96, (11, 11), (4, 4)))`
+- *Deconv2D*
+  - ```Deconv2D(filters=None, kernel_size=None, strides=(1, 1), padding="valid")```
+  - e.g. `Deconv2D(256, (3, 3), (2, 2)))`
 - *MaxPooling2D*, *AveragePooling2D*
   - ```MaxPooling2D(pool_size=(2, 2), strides=None, padding="valid")```
   - e.g. `MaxPooling2D((3, 3), strides=(2, 2))`
@@ -162,6 +165,10 @@ ZFNet
 VGG16
 
 <img src="examples/VGG16.svg">
+
+AutoEncoder
+
+<img src="examples/AutoEncoder.svg">
 
 AlexNet saved by matplotlib with plt.xkcd()
 
