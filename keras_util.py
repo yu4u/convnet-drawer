@@ -31,7 +31,7 @@ def is_class_object(class_name):
 def convert_drawer_model(model):
     _input_shape = model.input_shape
     figure = Model(input_shape=_input_shape[1:])
-    for config in model.get_config():
+    for config in model.get_config()["layers"]:
         class_name = config.get("class_name", False)
         class_config = config.get("config", False)
         if class_name and class_config:
