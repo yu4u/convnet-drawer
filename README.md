@@ -67,7 +67,7 @@ The other examples can be found [here](examples).
 
 ### Convert Keras sequential model
 Keras sequential model can be converted to `convnet_drawer.Model` (thanks to @wakamezake).
-Only Conv2D, MaxPooling2D, Flatten, Dense layers are supported for this conversion.
+Only Conv2D, MaxPooling2D, GlobalAveragePooling2D, Flatten, Dense layers are supported for this conversion.
 
 ```python
 from keras_util import convert_drawer_model
