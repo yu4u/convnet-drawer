@@ -56,15 +56,16 @@ class MyPresentation:
         self.presentation.save(filename)
 
 
-def save_model_to_pptx(model, filename):
+def save_model_to_pptx(model, filename, shift=0.0, scale=1.0):
     model.build()
     presentation = MyPresentation()
 
     for feature_map in model.feature_maps + model.layers:
         for obj in feature_map.objects:
             if isinstance(obj, Line):
-                presentation.add_line(obj.x1, obj.y1, obj.x2, obj.y2, obj.color, obj.width, obj.dasharray)
+                presentation.add_line(obj.x1 * scale, obj.y1 * scale + shift, obj.x2 * scale, obj.y2 * scale + shift,
+                                      obj.color, obj.width, obj.dasharray)
             elif isinstance(obj, Text):
-                presentation.add_text(obj.x, obj.y, obj.body, obj.color, obj.size)
+                presentation.add_text(obj.x * scale, obj.y * scale + shift, obj.body, obj.color, obj.size * scale)
 
     presentation.save_pptx(filename)
